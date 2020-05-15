@@ -2,7 +2,7 @@
 
 ## 网站推荐
 
- - [Docker 练习场](https://labs.play-with-docker.com/) 
+ - [Docker Playground 练习场](https://labs.play-with-docker.com/) 
     - 是Docker 官方提供的测试环境，可以在Docker 官方提供的环境上测试部署docker容器，并以秒级的速度完成部署，可以进行生产部署前的测试
  - [Kong 官方文档](https://docs.konghq.com/?itm_source=website&itm_medium=nav&_ga=2.96762199.919100626.1589503734-1475338618.1587999353) 
     - kong的官方文档，注意要根据生产环境kong的版本选择相应的官方文档
