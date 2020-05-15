@@ -13,7 +13,9 @@
  - [Kong docker compose](https://github.com/Kong/docker-kong/tree/master/compose) 
     - 通过 docker compose 来一键部署Kong，此链接为Kong 官方提供的kong 的docker compose模版
 
-## Kong Gateway 简介 预计阅读时间 5mins
+## Kong Gateway 简介 
+
+**预计阅读时间： 5分钟**
 
 ### 总览
 Kong是一个开源，轻量化， 为微服务而设计的API Gateway（网关）
@@ -46,10 +48,58 @@ Load Balancing | Kong Gateway提供了两种负载平衡方法：基于DNS的直
 
 ![Kong traffic](https://docs.konghq.com/assets/images/docs/getting-started-guide/gateway-traffic.png)
 
-## Kong 安装部署
+## Kong docker 快捷部署 
 
-
+**预计阅读时间： 3分钟**
+1. 通过docker-compose 部署：
+ - `git clone https://github.com/RIC06X/Kong-API-Gateway-` 
+ - `cd docker-compose`
+ - `docker-compose up -d` 启动服务
+ - `docker-compose down` 停止服务
+2. 通过docker 部署
+ 配置数据库
+ ``` $bash
+ docker run -d --name kong-database \
+                -p 5432:5432 \
+                -e "POSTGRES_USER=kong" \
+                -e "POSTGRES_DB=kong" \
+                postgres:9.6
+ ```
+ kong迁移数据
+``` $bash
+docker run --rm \
+    --link kong-database:kong-database \
+    -e "KONG_DATABASE=postgres" \
+    -e "KONG_PG_HOST=kong-database" \
+    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
+    kong kong migrations bootstrap
+```
+ 启动kong
+ ```$bash
+ docker run -d --name kong \
+    --link kong-database:kong-database \
+    -e "KONG_DATABASE=postgres" \
+    -e "KONG_PG_HOST=kong-database" \
+    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
+    -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
+    -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
+    -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
+    -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
+    -e "KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl" \
+    -p 8000:8000 \
+    -p 8443:8443 \
+    -p 8001:8001 \
+    -p 8444:8444 \
+    kong
+ ```
+ 详细部署说明请参考[kong dockerhub官方网站](https://hub.docker.com/_/kong)
+ 
 ## Kong 准备工作
 
+默认情况下，Kong侦听以下端口：
+`:8000` Kong在该端口上侦听来自客户端的传入HTTP流量，并将其转发到你的上游服务upstream service。
+`:8443` Kong在其上侦听传入的HTTPS流量。此端口具有与端口类似的行为:8000，除了它仅期望HTTPS通信。可以通过配置文件禁用此端口。
+`:8001` 用于配置Kong的Admin API http监听端口。
+`:8444` 用于配置Kong的Admin API HTTPS监听端口。
 
 
