@@ -20,7 +20,7 @@ Kong是一个开源，轻量化， 为微服务而设计的API Gateway（网关�
 
 Kong是一个在Nginx中运行的Lua应用程序，并且可以通过lua-nginx模块实现。Kong不是用这个模块编译Nginx，而是与OpenResty一起分发，OpenResty已经包含了lua-nginx-module。OpenResty不是Nginx的分支，而是一组扩展其功能的模块
 
-!(Kong 架构)[https://docs.konghq.com/assets/images/docs/getting-started-guide/Kong-GS-overview.png]
+![Kong 架构](https://docs.konghq.com/assets/images/docs/getting-started-guide/Kong-GS-overview.png)
 
 
 功能 | 说明
@@ -44,7 +44,7 @@ Load Balancing | Kong Gateway提供了两种负载平衡方法：基于DNS的直
 - 后端服务Service只会处理有效的请求(valid request)，因此不会浪费机能来处理无效请求
 - 所有的请求都会被记录，实现了流量集中监控
 
-!(Kong traffic)[https://docs.konghq.com/assets/images/docs/getting-started-guide/gateway-traffic.png]
+![Kong traffic](https://docs.konghq.com/assets/images/docs/getting-started-guide/gateway-traffic.png)
 
 ## Kong 安装部署
 
